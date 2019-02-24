@@ -31,11 +31,11 @@ namespace lib
 			return *this;
 		}
 
-		thread_safe(thread_safe&& other) :
+		thread_safe(thread_safe&& other) noexcept(std::is_nothrow_move_constructible_v<object_t>) :
 			object{ std::move(other.acquire().raw) }
 		{}
 
-		thread_safe& operator=(thread_safe&& other)
+		thread_safe& operator=(thread_safe&& other) noexcept(std::is_nothrow_move_assignable_v<object_t>)
 		{
 			if (this == &other) return *this;
 			object_t temp = std::move(other.acquire().raw);
